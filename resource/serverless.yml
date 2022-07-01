@@ -1,0 +1,62 @@
+service: api-actor
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment: ${file(./variables.yml):${opt:env_var, opt:stage, self:provider.stage}}
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+
+custom:
+  variables: ${file(./variables.yml)}
+  cors:
+    origin: '*'
+    headers:
+      - Content-Type
+      - X-Amz-Date
+      - Authorization
+      - X-Api-Key
+      - X-Amz-Security-Token
+      - X-Amz-User-Agent
+      - istabletuser
+      - Authorization
+      - AccessToken
+      - authorization
+      - accesstoken
+      - RefreshToken
+      - refreshtoken
+      - language
+      - platformtype
+      - PlatformType
+      - webVersion
+      - webversion
+
+functions:
+  api-info-actor:
+    handler: handler.handler
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: info-actor
+          method: get 
+          integration: lambda-proxy
+  findUserByEmail:
+    handler: handler.handler
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: findByEmail
+          method: post 
+          integration: lambda-proxy
+  login:
+    handler: handler.handler
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: login
+          method: post 
+          integration: lambda-proxy

@@ -1,0 +1,12 @@
+dev:
+    STAGE: dev
+    REGION: us-east-1
+    COGNITO_CLIENT_ID: 745ij4m00q78eo8lchvs1dv6dp
+    USER_POOL_ID: us-east-1_xF0Gm1OLJ
+    USER_POOL_ARN: arn:aws:cognito-idp:us-east-1:869879906019:userpool/us-east-1_xF0Gm1OLJ
+    MONGO_DB_CLUSTER : 'cluster0.clbsi.mongodb.net'
+    MONGO_DB_U : 'console_dev'
+    MONGO_DB_P : 'PpKfjWLEJqZCnaKm'
+    CONSOLE_WEBSITE_URL: 'https://dev.console.pascal.studio'  
+    PREFIX_MAIL: '[Dev] - '
+    EMAIL_ACCESS_TOKEN: 'b4c3a2d6d0e9b157c506a865602e3ab008b57c35'
