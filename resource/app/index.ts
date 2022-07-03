@@ -56,10 +56,11 @@ async function login(event: any) {
 routes.post('/login', async (req: any, res: any) => {
     await mongoDB.connect();
     const user = new User_Utils({ ...req.body })
-    await user.login().catch(() => {
+    console.log(user)
+    await user.login().catch((err) => {
         return res.status(404).json({
             code: 501,
-            message: 'user not found'
+            message: err
         })
     })
     if (user.idToken) {

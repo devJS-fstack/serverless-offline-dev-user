@@ -6,6 +6,7 @@ import { UserImpl } from './implement/userImp'
 import User_Utils from './utils/users.until'
 import { RoleImpl } from './implement/roleImp'
 import { Response } from './objects/response'
+import { User } from './objects/user'
 const server = awsServerlessExpress.createServer(app)
 import { MongoDB } from './database/connect'
 
@@ -50,22 +51,20 @@ export const createUser = async (event: any, context: any, callback: any) => {
     };
     const body = JSON.parse(event.body)
     const { email, password, firstName, lastName, organization } = body
-    const username = email.split('@')[0];
+    const username = email
     const userRole = body.userRole || 'ORG_ADMIN'
-    if (userRole != 'ORG_ADMIN') {
-        const checkRole = await new RoleImpl().find({ 'role': userRole })
-        if (!checkRole) {
-            response = {
-                ...response,
-                statusCode: 401,
-                body: JSON.stringify({
-                    message: 'Bad request',
-                    code: 401,
-                    errors: 'Role is not correct'
-                }),
-            }
-            return callback(null, response)
+    const role = await new RoleImpl().find({ 'role': userRole })
+    if (!role) {
+        response = {
+            ...response,
+            statusCode: 401,
+            body: JSON.stringify({
+                message: 'Bad request',
+                code: 401,
+                errors: 'Role is not correct'
+            }),
         }
+        return callback(null, response)
     }
     const exist = await new UserImpl().findOne({ 'email': email })
     if (exist) {
@@ -90,8 +89,21 @@ export const createUser = async (event: any, context: any, callback: any) => {
         organization
     })
 
+    const newUserDB: User = {
+        email,
+        username,
+        firstName,
+        lastName,
+        organization,
+        userRole: {
+            roleName: role.roleName,
+            role: role.role
+        }
+    }
+
     try {
-        const result = await newUser.create()
+        await newUser.create()
+        await new UserImpl().save(newUserDB)
     } catch (err) {
         response = {
             ...response,
@@ -105,7 +117,6 @@ export const createUser = async (event: any, context: any, callback: any) => {
         return callback(null, response)
     }
 
-    console.log('Pass...')
     response = {
         ...response,
         statusCode: 200,

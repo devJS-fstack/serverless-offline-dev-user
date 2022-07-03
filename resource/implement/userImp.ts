@@ -15,6 +15,11 @@ export class UserImpl {
         return await UserModel.findOne(data)
     }
 
-    async login(): Promise<any> {
+    async save(data: User): Promise<any> {
+        const result = await new UserModel(data).save()
+        return new Promise((resolve, reject) => {
+            if (result) resolve(result)
+            else reject('INSERT TO DATABASE FAILED')
+        })
     }
 }
