@@ -60,3 +60,19 @@ functions:
           path: login
           method: post 
           integration: lambda-proxy
+  test:
+    handler: handler.function_test
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: test
+          method: get 
+          integration: lambda-proxy
+  createUser:
+    handler: handler.createUser
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: createUser
+          method: post 
+          integration: lambda-proxy

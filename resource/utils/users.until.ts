@@ -59,7 +59,7 @@ class User_Utils implements User {
 
     async login() {
         const params = {
-            ClientId: process.env.COGNITO_CLIENT_ID || '',
+            ...AuthClient,
             AuthFlow: 'USER_PASSWORD_AUTH',
             AuthParameters: {
                 PASSWORD: this.password,
@@ -79,6 +79,45 @@ class User_Utils implements User {
                     this.refreshToken = result?.RefreshToken;
                     delete this.password
                     resolve(this);
+                }
+            })
+        })
+    }
+
+    async create() {
+        const UserAttributes = [
+            {
+                Name: 'email',
+                Value: this.email
+            },
+            {
+                Name: 'custom:firstName',
+                Value: this.firstName ?? ''
+            },
+            {
+                Name: 'custom:lastName',
+                Value: this.lastName ?? ''
+            },
+            {
+                Name: 'custom:organizationId',
+                Value: this.organization
+            }
+        ]
+
+        const params = {
+            ...AuthClient,
+            Password: this.password,
+            Username: this.username,
+            UserAttributes
+        }
+
+
+        return new Promise((resolve, reject) => {
+            cognitoidentityserviceprovider.signUp(params as SignUpRequest, (err, data) => {
+                if (err) reject(`Sign Up Failed! ${err}`)
+                else {
+                    console.log(`SIGN UP SUCCESS: ${data.UserSub}`)
+                    resolve(data.UserSub)
                 }
             })
         })
