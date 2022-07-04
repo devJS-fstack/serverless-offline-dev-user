@@ -192,6 +192,31 @@ export default {
         callback(null, response)
     },
 
+    changePassword: async (event: any, context: any, callback: any) => {
+        const body = JSON.parse(event.body)
+        const { oldPassword, newPassword, accessToken } = body;
+        const response = new ResponseModel(200, null)
+        const user = new User_Utils({})
+        try {
+            const result = await user.changePassword(oldPassword, newPassword, accessToken)
+            if (result) {
+                response.body = JSON.stringify({
+                    code: 200,
+                    message: 'success',
+                    data: result
+                })
+            }
+        } catch (err: any) {
+            response.statusCode = 400,
+                response.body = JSON.stringify({
+                    code: 400,
+                    errors: err.message
+                })
+        }
+
+        callback(null, response)
+    },
+
     updateProfile: async (event: any, context: any, callback: any) => {
         await mongoDB.connect()
         prepareDate(event, context)

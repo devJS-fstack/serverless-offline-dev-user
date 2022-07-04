@@ -212,9 +212,25 @@ class User_Utils implements User {
         })
     }
 
+    async changePassword(passwordOld: string, passwordNew: string, accessToken: string) {
+        const params = {
+            AccessToken: accessToken,
+            PreviousPassword: passwordOld,
+            ProposedPassword: passwordNew
+        }
+
+        return new Promise((resolve, reject) => {
+            cognitoidentityserviceprovider.changePassword(params, (err, data) => {
+                if (err) reject(err)
+                else {
+                    resolve(data)
+                }
+            })
+        })
+    }
+
     async updateProfile(accessToken: string) {
         const params = {
-            // ...AuthClient,
             AccessToken: accessToken,
             UserAttributes: [
                 {

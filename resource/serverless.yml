@@ -100,6 +100,14 @@ functions:
           path: resetPassword
           method: post 
           integration: lambda-proxy
+  changePassword:
+    handler: handler.changePassword
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: changePassword
+          method: post 
+          integration: lambda-proxy
   updateProfile:
     handler: handler.updateProfile
     events:

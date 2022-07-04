@@ -74,5 +74,6 @@ export const createUser = UserController.createUser
 export const refreshToken = UserController.refreshToken
 export const forgotPassword = UserController.forgotPassword
 export const resetPassword = UserController.resetPassword
+export const changePassword = UserController.changePassword
 export const updateProfile = UserController.updateProfile
 
