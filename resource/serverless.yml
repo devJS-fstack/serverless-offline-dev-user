@@ -76,3 +76,11 @@ functions:
           path: createUser
           method: post 
           integration: lambda-proxy
+  refreshToken:
+    handler: handler.refreshToken
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: refreshToken
+          method: post 
+          integration: lambda-proxy

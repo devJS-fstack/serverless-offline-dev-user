@@ -33,4 +33,5 @@ export const function_test = async (event: any, context: any, callback: any) => 
 }
 
 export const createUser = UserController.createUser
+export const refreshToken = UserController.refreshToken
 

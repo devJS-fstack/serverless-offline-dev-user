@@ -153,6 +153,27 @@ class User_Utils implements User {
             });
         });
     }
+
+    async refreshTheToken() {
+        const params = {
+            ...AuthClient,
+            AuthFlow: 'REFRESH_TOKEN',
+            AuthParameters: {
+                REFRESH_TOKEN: this.refreshToken!
+            }
+        }
+        return new Promise((resolve, reject) => {
+            cognitoidentityserviceprovider.initiateAuth(params, (err, data) => {
+                if (err) reject(err)
+                else {
+                    // console.log('THIS IS DATA: ', data.AuthenticationResult)
+                    this.idToken = data.AuthenticationResult?.IdToken;
+                    this.accessToken = data.AuthenticationResult?.AccessToken
+                    resolve(data)
+                }
+            })
+        })
+    }
 }
 
 export default User_Utils

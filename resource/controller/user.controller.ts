@@ -6,6 +6,7 @@ import { Response } from '../objects/response'
 import { User } from '../objects/user'
 import { schemaCreateUser } from '../validate/user.validate'
 import { MongoDB } from '../database/connect'
+import ResponseModel from '../models/response.model'
 
 const mongoDB = new MongoDB
 
@@ -108,6 +109,32 @@ export default {
                 code: 200,
             }),
         };
+        callback(null, response)
+    },
+
+    refreshToken: async (event: any, context: any, callback: any) => {
+        const body = JSON.parse(event.body)
+        const { refreshToken } = body;
+        const response = new ResponseModel(200, null)
+        const userUntil = new User_Utils({ refreshToken })
+        try {
+            await userUntil.refreshTheToken()
+        } catch (err: any) {
+            response.statusCode = err.statusCode
+            response.body = JSON.stringify({
+                code: err.statusCode,
+                message: err.code
+            })
+            return callback(null, response)
+        }
+        response.body = JSON.stringify({
+            code: 200,
+            message: 'success',
+            info: {
+                idToken: userUntil.idToken,
+                accessToken: userUntil.accessToken
+            }
+        })
         callback(null, response)
     }
 
