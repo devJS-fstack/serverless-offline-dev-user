@@ -84,6 +84,30 @@ functions:
           path: refreshToken
           method: post 
           integration: lambda-proxy
+  forgotPassword:
+    handler: handler.forgotPassword
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: forgotPassword
+          method: post 
+          integration: lambda-proxy
+  resetPassword:
+    handler: handler.resetPassword
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: resetPassword
+          method: post 
+          integration: lambda-proxy
+  updateProfile:
+    handler: handler.updateProfile
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: updateProfile
+          method: post 
+          integration: lambda-proxy
   updateRegion:
     handler: handler.updateRegion
     events:

@@ -5,7 +5,7 @@ export default (event: any, context: any) => {
             username: claims['cognito:username'],
             firstName: claims['custom:firstName'],
             lastName: claims['custom:lastName'],
-            email: claims.email ? claims.email : claims['cognito:username'],
+            email: claims.username ? claims.username : claims['cognito:username'],
         }
         console.log('Prepare success...')
     } else {

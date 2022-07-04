@@ -22,4 +22,12 @@ export class UserImpl {
             else reject('INSERT TO DATABASE FAILED')
         })
     }
+
+    async updateProfile(email: string, firstName: string, lastName: string) {
+        const result = await UserModel.updateOne({ email }, { firstName, lastName })
+        return new Promise((resolve, reject) => {
+            if (result) resolve(result)
+            else reject('UPDATE PROFILE ERROR. PLEASE TRY AGAIN!')
+        })
+    }
 }

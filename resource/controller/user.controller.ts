@@ -7,6 +7,7 @@ import { User } from '../objects/user'
 import { schemaCreateUser } from '../validate/user.validate'
 import { MongoDB } from '../database/connect'
 import ResponseModel from '../models/response.model'
+import prepareDate from '../core/prepareData'
 
 const mongoDB = new MongoDB
 
@@ -135,6 +136,102 @@ export default {
                 accessToken: userUntil.accessToken
             }
         })
+        callback(null, response)
+    },
+
+    forgotPassword: async (event: any, context: any, callback: any) => {
+        const body = JSON.parse(event.body)
+        const { email } = body
+        const response = new ResponseModel(200, null, JSON.stringify({
+            code: 200,
+            message: 'success'
+        }))
+        const user = new User_Utils({ username: email, email })
+        try {
+            const result = await user.forgotPassword()
+        } catch (err) {
+            response.statusCode = 401
+            response.body = JSON.stringify({
+                code: 401,
+                errors: err
+            })
+            return callback(null, response)
+        }
+        callback(null, response)
+    },
+
+    resetPassword: async (event: any, context: any, callback: any) => {
+        const body = JSON.parse(event.body)
+        const response = new ResponseModel(200, null, JSON.stringify({
+            code: 200,
+            message: 'success'
+        }))
+        const { code, username, password, confirmPassword } = body
+        if (password !== confirmPassword) {
+            response.statusCode = 400
+            response.body = JSON.stringify({
+                code: 400,
+                message: 'Not incorrect two password'
+            })
+            callback(null, response)
+        }
+        const user = new User_Utils({ username })
+        try {
+            const result = await user.resetPassword(code, password)
+
+        } catch (err) {
+            response.statusCode = 400
+            response.body = JSON.stringify({
+                code: 400,
+                errors: err
+            })
+            callback(null, response)
+        }
+
+
+        callback(null, response)
+    },
+
+    updateProfile: async (event: any, context: any, callback: any) => {
+        await mongoDB.connect()
+        prepareDate(event, context)
+        const { Authorization } = event.headers
+        const { email } = event.currentUser
+        const body = JSON.parse(event.body);
+        const { firstName, lastName } = body
+        const response = new ResponseModel(200, null, JSON.stringify({
+            code: 200,
+            message: 'success'
+        }))
+        const user = new User_Utils({ firstName, lastName })
+        try {
+            const resolve = await user.updateProfile(Authorization);
+        } catch (err) {
+            response.statusCode = 400
+            response.body = JSON.stringify({
+                code: 400,
+                errors: err
+            })
+        }
+
+        const userImpl = new UserImpl();
+
+        try {
+            const data = await userImpl.updateProfile(email, firstName, lastName);
+            const newUser = await userImpl.findByEmail(email)
+            response.body = JSON.stringify({
+                code: 200,
+                message: 'success',
+                user: newUser
+            })
+        } catch (err) {
+            response.statusCode = 400
+            response.body = JSON.stringify({
+                code: 400,
+                errors: err
+            })
+        }
+
         callback(null, response)
     }
 

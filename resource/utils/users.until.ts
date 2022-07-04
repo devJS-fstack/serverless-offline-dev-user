@@ -174,6 +174,70 @@ class User_Utils implements User {
             })
         })
     }
+
+    async forgotPassword() {
+        const params = {
+            ...AuthClient,
+            Username: this.username!.toLowerCase(),
+        }
+
+        cognitoidentityserviceprovider.updateUserAttributes
+        return new Promise((resolve, reject) => {
+            cognitoidentityserviceprovider.forgotPassword(params, (err, data) => {
+                if (err) reject(err)
+                else {
+                    console.log('Initial forgot password flow...')
+                    resolve(data)
+                }
+            })
+        })
+    }
+
+    async resetPassword(code: string, passwordNew: string) {
+        const params = {
+            ...AuthClient,
+            ConfirmationCode: code,
+            Password: passwordNew,
+            Username: this.username!.toLowerCase()
+        }
+
+        return new Promise((resolve, reject) => {
+            cognitoidentityserviceprovider.confirmForgotPassword(params, (err, data) => {
+                if (err) reject(err)
+                else {
+                    console.log('Initial confirm reset password flow...')
+                    resolve(data)
+                }
+            })
+        })
+    }
+
+    async updateProfile(accessToken: string) {
+        const params = {
+            // ...AuthClient,
+            AccessToken: accessToken,
+            UserAttributes: [
+                {
+                    Name: 'custom:firstName',
+                    Value: this.firstName
+                },
+                {
+                    Name: 'custom:lastName',
+                    Value: this.lastName
+                }
+            ]
+        }
+
+        return new Promise((resolve, reject) => {
+            cognitoidentityserviceprovider.updateUserAttributes(params, (err, data) => {
+                if (err) reject(err)
+                else {
+                    console.log('Initial update profile flow...')
+                    resolve(data)
+                }
+            })
+        })
+    }
 }
 
 export default User_Utils
