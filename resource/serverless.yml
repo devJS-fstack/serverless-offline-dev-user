@@ -84,3 +84,11 @@ functions:
           path: refreshToken
           method: post 
           integration: lambda-proxy
+  updateRegion:
+    handler: handler.updateRegion
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: updateRegion
+          method: get 
+          integration: lambda-proxy
