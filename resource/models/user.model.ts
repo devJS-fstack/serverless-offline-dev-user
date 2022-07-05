@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
     refreshToken: String,
     organization: String,
     phoneNumber: String,
+    profilePicture: String,
     ctd: { type: Date, default: moment().utc().toDate() },
     mtd: Date,
     ddt: Date,

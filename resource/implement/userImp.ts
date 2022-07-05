@@ -34,4 +34,17 @@ export class UserImpl {
             else reject('UPDATE PROFILE ERROR. PLEASE TRY AGAIN!')
         })
     }
+
+    async update(condition: any, data: any) {
+        console.log(condition)
+        console.log(data)
+        const result = await UserModel.updateOne(condition, data)
+        return new Promise((resolve, reject) => {
+            if (result) {
+                console.log(result)
+                resolve(result)
+            }
+            else reject('UPDATE ERROR. PLEASE TRY AGAIN!')
+        })
+    }
 }

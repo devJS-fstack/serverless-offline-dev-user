@@ -328,6 +328,7 @@ export default {
                         messgae: 'success',
                         link: imageFromS3.path
                     })
+                    await new UserImpl().update({ email: user.email }, { profilePicture: imageFromS3.path })
                     callback(null, response)
                 }
             } catch (err) {
