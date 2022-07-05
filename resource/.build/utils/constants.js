@@ -1,5 +1,4 @@
 "use strict";
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     info: {
@@ -10,7 +9,7 @@ exports.default = {
     organizationService: {
         GET_ORG_BYNAME: `console-onboarding-${process.env.STAGE}-organizationDetailsByName`,
     },
-    bucketImageProfile: (_a = process.env.BUCKET) !== null && _a !== void 0 ? _a : 'console-skyview-dev',
+    bucketImageProfile: process.env.BUCKET || 'console-skyview-dev',
     imageURL: `https://${process.env.BUCKET}.s3.amazonaws.com`
 };
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29uc3RhbnRzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vdXRpbHMvY29uc3RhbnRzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLGtCQUFlO0lBQ1gsSUFBSSxFQUFFO1FBQ0YsSUFBSSxFQUFFLGFBQWE7UUFDbkIsR0FBRyxFQUFFLEVBQUU7UUFDUCxPQUFPLEVBQUUsS0FBSztLQUNqQjtJQUNELG1CQUFtQixFQUFFO1FBQ2pCLGNBQWMsRUFBRSxzQkFBc0IsT0FBTyxDQUFDLEdBQUcsQ0FBQyxLQUFLLDRCQUE0QjtLQUN0RjtJQUNELGtCQUFrQixFQUFFLE1BQUEsT0FBTyxDQUFDLEdBQUcsQ0FBQyxNQUFNLG1DQUFJLHFCQUFxQjtJQUMvRCxRQUFRLEVBQUUsV0FBVyxPQUFPLENBQUMsR0FBRyxDQUFDLE1BQU0sbUJBQW1CO0NBQzdELENBQUEifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29uc3RhbnRzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vdXRpbHMvY29uc3RhbnRzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsa0JBQWU7SUFDWCxJQUFJLEVBQUU7UUFDRixJQUFJLEVBQUUsYUFBYTtRQUNuQixHQUFHLEVBQUUsRUFBRTtRQUNQLE9BQU8sRUFBRSxLQUFLO0tBQ2pCO0lBQ0QsbUJBQW1CLEVBQUU7UUFDakIsY0FBYyxFQUFFLHNCQUFzQixPQUFPLENBQUMsR0FBRyxDQUFDLEtBQUssNEJBQTRCO0tBQ3RGO0lBQ0Qsa0JBQWtCLEVBQUUsT0FBTyxDQUFDLEdBQUcsQ0FBQyxNQUFNLElBQUkscUJBQXFCO0lBQy9ELFFBQVEsRUFBRSxXQUFXLE9BQU8sQ0FBQyxHQUFHLENBQUMsTUFBTSxtQkFBbUI7Q0FDN0QsQ0FBQSJ9

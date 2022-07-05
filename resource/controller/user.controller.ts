@@ -318,27 +318,36 @@ export default {
         }))
         if (prepareDate(event, context)) {
             const user = event.currentUser
-            const photo = data ? data.toString('base64') : ''
-            const { _id } = await new UserImpl().findOne({ 'username': user.username })
-            const path = `${user.organization}/profile`
-            try {
-                const imageFromS3: any = await uploadImage(constants.bucketImageProfile, path, photo, _id)
-                console.log('Image from S3', imageFromS3)
-                if (imageFromS3) {
+            if (user.organization) {
+                const photo = data ? data.toString('base64') : ''
+                const { _id } = await new UserImpl().findOne({ 'username': user.username })
+                const path = `${user.organization}/profile`
+                try {
+                    const imageFromS3: any = await uploadImage(constants.bucketImageProfile, path, photo, _id)
+                    console.log('Image from S3', imageFromS3)
+                    if (imageFromS3) {
+                        response.body = JSON.stringify({
+                            code: 200,
+                            messgae: 'success',
+                            link: imageFromS3.path
+                        })
+                        await new UserImpl().update({ email: user.email }, { profilePicture: imageFromS3.path })
+                        callback(null, response)
+                    }
+                } catch (err) {
+                    response.statusCode = 400;
                     response.body = JSON.stringify({
-                        code: 200,
+                        code: 400,
                         messgae: 'success',
-                        link: imageFromS3.path
+                        errors: err
                     })
-                    await new UserImpl().update({ email: user.email }, { profilePicture: imageFromS3.path })
                     callback(null, response)
                 }
-            } catch (err) {
+            } else {
                 response.statusCode = 400;
                 response.body = JSON.stringify({
                     code: 400,
-                    messgae: 'success',
-                    errors: err
+                    messgae: 'Token is incorrect. Please try again',
                 })
                 callback(null, response)
             }
