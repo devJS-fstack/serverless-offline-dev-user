@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@types/aws-serverless-express": "^3.3.5",
+    "imageinfo": "^1.0.4",
     "moment": "^2.29.3",
     "mongoose": "^6.4.1",
     "serverless-offline": "^8.8.0",

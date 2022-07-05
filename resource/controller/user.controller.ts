@@ -305,11 +305,18 @@ export default {
     },
 
     updateProfilePicture: async (event: any, context: any, callback: any) => {
+        await mongoDB.connect()
         const body = JSON.parse(event.body)
+        const { data } = body
         const response = new ResponseModel(200, null, JSON.stringify({
             code: 200,
             message: 'success',
         }))
+        if (prepareDate(event, context)) {
+            const user = event.currentUser
+            const photo = data ? data.toString('base64') : ''
+            const { _id } = await new UserImpl().findOne({ 'username': user.username })
+        }
         callback(null, response)
     }
 }

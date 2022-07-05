@@ -9,7 +9,8 @@ export default (event: any, context: any) => {
             email: claims.username ? claims.username : claims['cognito:username'],
         }
         console.log('Prepare success...')
-    } else {
-        console.log('Prepare failed...')
+        return true;
     }
+    console.log('Prepare failed...')
+    return false;
 }

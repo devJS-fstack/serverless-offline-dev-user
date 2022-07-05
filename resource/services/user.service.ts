@@ -1,0 +1,1 @@
+const imageinfo = require('imageinfo');
