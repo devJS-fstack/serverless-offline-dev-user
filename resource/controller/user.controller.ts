@@ -258,6 +258,50 @@ export default {
         }
 
         callback(null, response)
+    },
+
+    getListUser: async (event: any, context: any, callback: any) => {
+        await mongoDB.connect()
+        const body = JSON.parse(event.body);
+        prepareDate(event, context)
+        // console.log('Event: ', event)
+        // console.log('Claims: ', event.requestContext.authorizer.claims)
+        const response = new ResponseModel(200, null, JSON.stringify({
+            code: 200,
+            message: 'success',
+        }))
+        if (!event.currentUser) {
+            response.statusCode = 401;
+            response.body = JSON.stringify({
+                code: 401,
+                message: 'Authorization incorrect'
+            })
+            callback(null, response);
+        }
+        const user: any = await new UserImpl().findOne({ 'email': event.currentUser.email })
+        const { role, name } = user.userRole
+        let flag = {}
+        if (role !== 'SUPER_ADMIN') {
+            flag = { organization: event.currentUser.orga }
+        }
+
+        const listUsers = await new UserImpl().findAll({ organization: event.currentUser.organization })
+
+        response.body = JSON.stringify({
+            code: 200,
+            message: 'success',
+            data: listUsers.map((user: any) => {
+                return {
+                    email: user.email,
+                    username: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    organization: user.organization
+                }
+            }).sort((a: any, b: any) => a?.email?.localeCompare(b?.email))
+        })
+
+        callback(null, response);
     }
 
 }

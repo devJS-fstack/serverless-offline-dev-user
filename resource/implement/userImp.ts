@@ -15,6 +15,10 @@ export class UserImpl {
         return await UserModel.findOne(data)
     }
 
+    async findAll(data: any): Promise<any> {
+        return await UserModel.find(data)
+    }
+
     async save(data: User): Promise<any> {
         const result = await new UserModel(data).save()
         return new Promise((resolve, reject) => {

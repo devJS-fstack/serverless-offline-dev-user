@@ -71,6 +71,7 @@ export const updateRegion = async (event: any, context: any, callback: any) => {
 }
 
 export const createUser = UserController.createUser
+export const getListUser = UserController.getListUser
 export const refreshToken = UserController.refreshToken
 export const forgotPassword = UserController.forgotPassword
 export const resetPassword = UserController.resetPassword

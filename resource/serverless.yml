@@ -76,6 +76,14 @@ functions:
           path: createUser
           method: post 
           integration: lambda-proxy
+  getListUser:
+    handler: handler.getListUser
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: users
+          method: get 
+          integration: lambda-proxy
   refreshToken:
     handler: handler.refreshToken
     events:
