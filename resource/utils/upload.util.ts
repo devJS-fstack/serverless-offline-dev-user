@@ -17,7 +17,7 @@ export default class {
             Key: key,
             Body: buf,
             ContentEncoding: 'base64',
-            ContentType: 'image/png',
+            ContentType: 'image/jpg',
             ACL: 'public-read'
         }
         return new Promise((resolve, reject) => {
@@ -25,7 +25,8 @@ export default class {
                 if (err) reject(err)
                 else {
                     console.log('UPLOAD IMAGE SUCCESS...')
-                    resolve(data)
+                    const path = `${constants.imageURL}/${key}`
+                    resolve({ path, key })
                 }
             })
         })

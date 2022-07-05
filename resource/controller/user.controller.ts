@@ -8,6 +8,8 @@ import { schemaCreateUser } from '../validate/user.validate'
 import { MongoDB } from '../database/connect'
 import ResponseModel from '../models/response.model'
 import prepareDate from '../core/prepareData'
+import { uploadImage } from '../services/user.service'
+import constants from '../utils/constants'
 
 const mongoDB = new MongoDB
 
@@ -316,6 +318,27 @@ export default {
             const user = event.currentUser
             const photo = data ? data.toString('base64') : ''
             const { _id } = await new UserImpl().findOne({ 'username': user.username })
+            const path = `${user.organization}/profile`
+            try {
+                const imageFromS3: any = await uploadImage(constants.bucketImageProfile, path, photo, _id)
+                console.log('Image from S3', imageFromS3)
+                if (imageFromS3) {
+                    response.body = JSON.stringify({
+                        code: 200,
+                        messgae: 'success',
+                        link: imageFromS3.path
+                    })
+                    callback(null, response)
+                }
+            } catch (err) {
+                response.statusCode = 400;
+                response.body = JSON.stringify({
+                    code: 400,
+                    messgae: 'success',
+                    errors: err
+                })
+                callback(null, response)
+            }
         }
         callback(null, response)
     }

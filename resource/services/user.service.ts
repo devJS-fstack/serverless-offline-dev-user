@@ -9,13 +9,19 @@ export const uploadImage = async (bucket: string, path: string, image: any, idIm
     const infoImg = imageinfo(photoBuffer)
     const photoSize = Buffer.byteLength(photoBuffer)
     return new Promise((resolve, reject) => {
-        if (!infoImg || infoImg.type !== 'image' || infoImg.mimeType !== 'image/png' || photoSize > MAXIMUM_IMAGE) {
+        if (!infoImg || infoImg.type !== 'image' || infoImg.mimeType !== 'image/jpeg' || photoSize > MAXIMUM_IMAGE) {
             reject('Invalid image. Please try again!')
         } else {
             const imageName = `${idImg}_${timestamp}`
             const imagePath = `${path}/${imageName}`
             const imageKey = `${imagePath}.${infoImg.format.toLowerCase()}`
-            return new UploadUtils(bucket).upload(photoBuffer, imageKey)
+            try {
+                const data = new UploadUtils(bucket).upload(photoBuffer, imageKey)
+                if (data) resolve(data)
+            } catch (err) {
+                reject(err)
+            }
+
         }
     })
 }
