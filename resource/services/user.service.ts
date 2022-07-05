@@ -9,7 +9,6 @@ export const uploadImage = async (bucket: string, path: string, image: any, idIm
     const infoImg = imageinfo(photoBuffer)
     const photoSize = Buffer.byteLength(photoBuffer)
     return new Promise((resolve, reject) => {
-        console.log(infoImg)
         if (!infoImg || infoImg.type !== 'image' || infoImg.mimeType !== 'image/jpeg' || photoSize > MAXIMUM_IMAGE) {
             reject('Invalid image. Please try again!')
         } else {

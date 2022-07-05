@@ -17,6 +17,7 @@ interface User {
     userId?: string;
     organization?: string;
     organizationName?: string;
+    phoneNumber?: string;
     userRole?: {
         roleName?: string;
         role?: string;
@@ -34,6 +35,7 @@ class User_Utils implements User {
     accessToken?: string;
     refreshToken?: string;
     organization?: string;
+    phoneNumber?: string;
     userRole?: {
         roleName?: string;
         role?: string;
@@ -55,6 +57,7 @@ class User_Utils implements User {
         this.accessToken = data.accessToken;
         this.refreshToken = data.refreshToken;
         this.organizationName = data.organizationName;
+        this.phoneNumber = data.phoneNumber;
     }
 
     async login() {

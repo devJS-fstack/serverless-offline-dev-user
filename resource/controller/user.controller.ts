@@ -225,7 +225,7 @@ export default {
         const { Authorization } = event.headers
         const { email } = event.currentUser
         const body = JSON.parse(event.body);
-        const { firstName, lastName } = body
+        const { firstName, lastName, phoneNumber } = body
         const response = new ResponseModel(200, null, JSON.stringify({
             code: 200,
             message: 'success'
@@ -233,18 +233,19 @@ export default {
         const user = new User_Utils({ firstName, lastName })
         try {
             const resolve = await user.updateProfile(Authorization);
-        } catch (err) {
+        } catch (err: any) {
             response.statusCode = 400
             response.body = JSON.stringify({
                 code: 400,
-                errors: err
+                errors: err.message
             })
+            callback(null, response)
         }
 
         const userImpl = new UserImpl();
 
         try {
-            const data = await userImpl.updateProfile(email, firstName, lastName);
+            const data = await userImpl.updateProfile(email, firstName, lastName, phoneNumber);
             const newUser = await userImpl.findByEmail(email)
             response.body = JSON.stringify({
                 code: 200,
@@ -257,6 +258,7 @@ export default {
                 code: 400,
                 errors: err
             })
+            callback(null, response)
         }
 
         callback(null, response)
