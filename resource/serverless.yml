@@ -124,6 +124,14 @@ functions:
           path: updateProfile
           method: post 
           integration: lambda-proxy
+  updateProfilePicture:
+    handler: handler.updateProfilePicture
+    events:
+      - http:
+          cors: ${self:custom.cors}
+          path: updateProfilePicture
+          method: post 
+          integration: lambda-proxy
   updateRegion:
     handler: handler.updateRegion
     events:

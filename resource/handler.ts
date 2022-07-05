@@ -77,4 +77,5 @@ export const forgotPassword = UserController.forgotPassword
 export const resetPassword = UserController.resetPassword
 export const changePassword = UserController.changePassword
 export const updateProfile = UserController.updateProfile
+export const updateProfilePicture = UserController.updateProfilePicture
 

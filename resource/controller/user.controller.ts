@@ -302,6 +302,14 @@ export default {
         })
 
         callback(null, response);
-    }
+    },
 
+    updateProfilePicture: async (event: any, context: any, callback: any) => {
+        const body = JSON.parse(event.body)
+        const response = new ResponseModel(200, null, JSON.stringify({
+            code: 200,
+            message: 'success',
+        }))
+        callback(null, response)
+    }
 }

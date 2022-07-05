@@ -10,3 +10,4 @@ dev:
     CONSOLE_WEBSITE_URL: 'https://dev.console.pascal.studio'  
     PREFIX_MAIL: '[Dev] - '
     EMAIL_ACCESS_TOKEN: 'b4c3a2d6d0e9b157c506a865602e3ab008b57c35'
+    BUCKET: 'console-skyview-dev'
