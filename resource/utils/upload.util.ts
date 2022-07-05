@@ -12,12 +12,12 @@ export default class {
         })
     }
 
-    upload(buf: any, key: any) {
+    upload(buf: any, key: any, type: string) {
         const params: any = {
             Key: key,
             Body: buf,
             ContentEncoding: 'base64',
-            ContentType: 'image/jpg',
+            ContentType: type,
             ACL: 'public-read'
         }
         return new Promise((resolve, reject) => {
