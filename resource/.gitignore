@@ -2,5 +2,6 @@
 node_modules
 jspm_packages
 
+public
 # Serverless directories
 .serverless
